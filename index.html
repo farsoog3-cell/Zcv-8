@@ -1,3 +1,4 @@
+<!-- login.html -->
 <!DOCTYPE html>
 <html lang="ar">
 <head>
@@ -159,7 +160,8 @@ document.getElementById('loginBtn').addEventListener('click', async ()=>{
                         errorMsg.textContent="انتهت مدة الاشتراك، يرجى تجديده";
                     } else {
                         successMsg.textContent="تم تسجيل الدخول بنجاح!";
-                        setTimeout(()=>window.location.href="dashboard.html",1000);
+                        localStorage.setItem('loggedIn','true');
+                        setTimeout(()=>window.location.href="go2.html",1000);
                     }
                     break;
                 }
