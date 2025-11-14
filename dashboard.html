@@ -1,3 +1,4 @@
+<!-- go2.html -->
 <!DOCTYPE html>
 <html lang="ar">
 <head>
@@ -9,10 +10,10 @@ body, html {
   margin:0; padding:0; height:100%; width:100%;
   font-family:'Segoe UI',sans-serif;
   display:flex; flex-direction:column;
-  background:#ffffff; /* أبيض */
+  background:#ffffff;
 }
 header {
-  background: linear-gradient(90deg,#000000,#333333); /* تدرج من الأسود للرمادي الغامق */
+  background: linear-gradient(90deg,#000000,#333333);
   color:#ffffff; text-align:center;
   padding:15px 0; font-size:1.4em; font-weight:bold;
   box-shadow:0 2px 6px rgba(0,0,0,0.1);
@@ -20,17 +21,17 @@ header {
 #main { flex:1 1 auto; display:flex; justify-content:center; align-items:center; padding:20px;}
 canvas {
   display:block;
-  background:#ffffff; /* أبيض */
+  background:#ffffff;
   border-radius:20px;
   box-shadow:0 4px 10px rgba(0,0,0,0.2);
-  border:2px solid #000000; /* أسود */
+  border:2px solid #000000;
 }
 #board { width:80vmin; height:80vmin;}
 .controls {
   flex:0 0 auto; padding:10px;
-  background:#ffffff; /* أبيض */
+  background:#ffffff;
   display:flex; justify-content:center; align-items:center;
-  border-top:2px solid #000000; /* أسود */
+  border-top:2px solid #000000;
   flex-wrap:wrap;
 }
 button {
@@ -64,6 +65,7 @@ button:hover {
 </style>
 </head>
 <body>
+
 <header>  go2  </header>
 
 <div id="main"><canvas id="board"></canvas></div>
@@ -79,6 +81,13 @@ button:hover {
 </div>
 
 <script>
+/* ===== تحقق الدخول قبل أي شيء ===== */
+if(!localStorage.getItem('loggedIn') || localStorage.getItem('loggedIn')!=='true'){
+    alert('الرجاء تسجيل الدخول أولاً');
+    window.location.href = 'login.html';
+}
+
+/* ===== كل كود go2 كما هو بدون تغيير ===== */
 const board = document.getElementById('board');
 const ctx = board.getContext('2d');
 let strokes = [];
@@ -92,6 +101,7 @@ function resizeCanvas() {
 window.addEventListener('load', resizeCanvas);
 window.addEventListener('resize', resizeCanvas);
 
+/* ===== بقية الكود كما هو من go2.html ===== */
 function traceContours(imgData, width, height) {
     const data = imgData.data;
     const visited = Array(width*height).fill(false);
