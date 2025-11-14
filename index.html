@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Al.go2</title>
 <style>
-/* ================== ستايل لوحة التطريز ================== */
 body, html {
   margin:0; padding:0; height:100%; width:100%;
   font-family:'Segoe UI',sans-serif;
@@ -13,7 +12,7 @@ body, html {
   background:#ffffff; /* أبيض */
 }
 header {
-  background: linear-gradient(90deg,#000000,#333333);
+  background: linear-gradient(90deg,#000000,#333333); /* تدرج من الأسود للرمادي الغامق */
   color:#ffffff; text-align:center;
   padding:15px 0; font-size:1.4em; font-weight:bold;
   box-shadow:0 2px 6px rgba(0,0,0,0.1);
@@ -21,17 +20,17 @@ header {
 #main { flex:1 1 auto; display:flex; justify-content:center; align-items:center; padding:20px;}
 canvas {
   display:block;
-  background:#ffffff;
+  background:#ffffff; /* أبيض */
   border-radius:20px;
   box-shadow:0 4px 10px rgba(0,0,0,0.2);
-  border:2px solid #000000;
+  border:2px solid #000000; /* أسود */
 }
 #board { width:80vmin; height:80vmin;}
 .controls {
   flex:0 0 auto; padding:10px;
-  background:#ffffff;
+  background:#ffffff; /* أبيض */
   display:flex; justify-content:center; align-items:center;
-  border-top:2px solid #000000;
+  border-top:2px solid #000000; /* أسود */
   flex-wrap:wrap;
 }
 button {
@@ -41,61 +40,34 @@ button {
   background:#000000; color:#ffffff; font-weight:600;
   box-shadow:0 2px 4px rgba(0,0,0,0.3);
 }
-button:hover { background:#333333; box-shadow:0 3px 6px rgba(0,0,0,0.4); }
-.upload-btn-wrapper { position: relative; overflow: hidden; display: inline-block; }
-.upload-btn { background:#000000; color:white; font-weight:600; padding:8px 20px; border-radius:12px; cursor:pointer; box-shadow:0 2px 4px rgba(0,0,0,0.3);}
+button:hover {
+  background:#333333;
+  box-shadow:0 3px 6px rgba(0,0,0,0.4);
+}
+.upload-btn-wrapper {
+  position: relative; overflow: hidden; display: inline-block;
+}
+.upload-btn {
+  background:#000000; color:white; font-weight:600;
+  padding:8px 20px; border-radius:12px; cursor:pointer;
+  box-shadow:0 2px 4px rgba(0,0,0,0.3);
+}
 .upload-btn:hover { background:#333333; }
-.upload-btn-wrapper input[type=file] { font-size:100px; position:absolute; left:0; top:0; opacity:0; cursor:pointer; }
-.warn { color:#000000; font-size:0.85em; margin-left:15px; background:#ffffff; padding:5px 10px; border-radius:10px; }
-
-/* ================== ستايل شاشة تسجيل الدخول ================== */
-#loginScreen {
-  position:fixed; top:0; left:0; width:100%; height:100%;
-  background:#111; display:flex; justify-content:center; align-items:center; flex-direction:column;
-  z-index:1000; color:white;
+.upload-btn-wrapper input[type=file] {
+  font-size:100px; position:absolute; left:0; top:0;
+  opacity:0; cursor:pointer;
 }
-.login-box {
-  background:#1f1f1f; padding:30px; border-radius:12px; box-shadow:0 4px 20px rgba(0,0,0,0.7); width:320px; position: relative;
+.warn {
+  color:#000000; font-size:0.85em; margin-left:15px;
+  background:#ffffff; padding:5px 10px; border-radius:10px;
 }
-.login-box h2 { text-align:center; margin-bottom:10px; }
-.form-group { margin-bottom:15px; }
-label { display:block; margin-bottom:5px; }
-input { width:100%; padding:10px; border-radius:6px; border:none; background:#222; color:white; }
-button.login-btn { width:100%; padding:12px; background:#2575fc; border:none; border-radius:8px; color:white; font-weight:bold; cursor:pointer; }
-button.login-btn:hover { opacity:0.9; }
-button.login-btn:disabled { opacity:0.6; cursor:not-allowed; }
-.error-msg { color:#ff4c4c; text-align:center; margin-top:10px; }
-.success-msg { color:#4caf50; text-align:center; margin-top:10px; }
-/* Spinner */
-#loading { display:none; position:absolute; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.7); justify-content:center; align-items:center; border-radius:12px; z-index:1001; }
-.spinner { border:4px solid #f3f3f3; border-top:4px solid #2575fc; border-radius:50%; width:40px; height:40px; animation:spin 1s linear infinite; }
-@keyframes spin { 0% { transform: rotate(0deg);} 100% { transform: rotate(360deg);} }
 </style>
 </head>
 <body>
-
-<!-- ================== شاشة تسجيل الدخول ================== -->
-<div id="loginScreen">
-  <div class="login-box">
-    <h2>تسجيل الدخول</h2>
-    <div class="form-group">
-      <label>اسم المستخدم:</label>
-      <input type="text" id="usernameLogin" placeholder="أدخل اسم المستخدم">
-    </div>
-    <div class="form-group">
-      <label>مفتاح الدخول:</label>
-      <input type="text" id="keyLogin" placeholder="أدخل مفتاح الاشتراك">
-    </div>
-    <button class="login-btn" id="loginBtn">دخول</button>
-    <p class="error-msg" id="errorMsg"></p>
-    <p class="success-msg" id="successMsg"></p>
-    <div id="loading"><div class="spinner"></div></div>
-  </div>
-</div>
-
-<!-- ================== لوحة التطريز ================== -->
 <header>Al.go2</header>
+
 <div id="main"><canvas id="board"></canvas></div>
+
 <div class="controls">
   <button id="clear">مسح</button>
   <button id="export">تنزيل JSON وDST</button>
@@ -106,88 +78,17 @@ button.login-btn:disabled { opacity:0.6; cursor:not-allowed; }
   <div class="warn">كل الغرز باللون الأسود ودقة الحواف محفوظة.</div>
 </div>
 
-<script type="module">
-// ================== Firebase تسجيل الدخول ==================
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
-
-const firebaseConfig = {
-apiKey: "AIzaSyAr_v3kF12qSNko0B6OTVCADZuzSOxn1lw",
-authDomain: "fars000911111.firebaseapp.com",
-databaseURL: "https://fars000911111-default-rtdb.firebaseio.com",
-projectId: "fars000911111",
-storageBucket: "fars000911111.appspot.com",
-messagingSenderId: "74964466448",
-appId: "1:74964466448:web:18d91ccf891edab4634395",
-measurementId: "G-H2K9WGRR0X"
-};
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-
-const networkStatusEl = document.createElement('div');
-function updateNetworkStatus() {
-    if(!navigator.onLine){
-        networkStatusEl.textContent="لا يوجد اتصال بالإنترنت";
-    } else { networkStatusEl.textContent="متصل بالإنترنت"; }
-}
-window.addEventListener('online', updateNetworkStatus);
-window.addEventListener('offline', updateNetworkStatus);
-updateNetworkStatus();
-
-const loginBtn = document.getElementById('loginBtn');
-loginBtn.addEventListener('click', async ()=>{
-    const username=document.getElementById('usernameLogin').value.trim();
-    const key=document.getElementById('keyLogin').value.trim();
-    const errorMsg=document.getElementById('errorMsg');
-    const successMsg=document.getElementById('successMsg');
-    const loading=document.getElementById('loading');
-    errorMsg.textContent=""; successMsg.textContent="";
-    if(!username || !key){ errorMsg.textContent="الرجاء إدخال اسم المستخدم والمفتاح!"; return; }
-    if(!navigator.onLine){ errorMsg.textContent="لا يوجد اتصال بالإنترنت!"; return; }
-    loading.style.display="flex";
-    loginBtn.disabled=true;
-
-    try{
-        const snapshot = await get(ref(db,'subscribers'));
-        if(snapshot.exists()){
-            const data = snapshot.val();
-            let found=false;
-            for(const id in data){
-                const sub = data[id];
-                if(sub.name===username && sub.key===key){
-                    found=true;
-                    const now = new Date();
-                    const endTime = new Date(sub.endTime);
-                    if(now > endTime){
-                        errorMsg.textContent="انتهت مدة الاشتراك، يرجى تجديده";
-                    } else {
-                        successMsg.textContent="تم تسجيل الدخول بنجاح!";
-                        setTimeout(()=>document.getElementById('loginScreen').style.display='none',1000);
-                    }
-                    break;
-                }
-            }
-            if(!found) errorMsg.textContent="المفتاح غير صحيح أو تم حذفه!";
-        } else{
-            errorMsg.textContent="لا يوجد مشتركين في قاعدة البيانات!";
-        }
-    } catch(err){
-        console.error(err);
-        errorMsg.textContent="حدث خطأ أثناء التحقق!";
-    } finally{
-        loading.style.display="none";
-        loginBtn.disabled=false;
-    }
-});
-
-// ================== كود التطريز الأصلي ==================
+<script>
 const board = document.getElementById('board');
 const ctx = board.getContext('2d');
 let strokes = [];
 let imgWidth = 0, imgHeight = 0;
 let dw = 0, dh = 0, offsetX = 0, offsetY = 0;
 
-function resizeCanvas() { board.width = board.clientWidth; board.height = board.clientHeight; }
+function resizeCanvas() {
+    board.width = board.clientWidth;
+    board.height = board.clientHeight;
+}
 window.addEventListener('load', resizeCanvas);
 window.addEventListener('resize', resizeCanvas);
 
@@ -197,6 +98,7 @@ function traceContours(imgData, width, height) {
     const strokes = [];
     function getIndex(x,y){ return y*width+x; }
     function isBlack(x,y){ return data[4*getIndex(x,y)]<50; }
+
     function followContour(x0,y0){
         const contour=[];
         const stack=[[x0,y0]];
@@ -227,6 +129,7 @@ function traceContours(imgData, width, height) {
         }
         return contour.length>4 ? simplify(contour,1) : null;
     }
+
     for(let y=0;y<height;y++){
         for(let x=0;x<width;x++){
             if(!visited[getIndex(x,y)] && isBlack(x,y)){
@@ -260,11 +163,13 @@ function animateStrokes(strokes, ctx){
     ctx.lineWidth=1;
     ctx.lineJoin='round';
     ctx.lineCap='round';
+
     const allPoints=[];
     for(const s of strokes){
         const smooth=smoothStroke(s);
         for(let i=1;i<smooth.length;i++) allPoints.push([smooth[i-1],smooth[i]]);
     }
+
     let index=0;
     function drawStep(){
         if(index>=allPoints.length) return;
@@ -307,7 +212,10 @@ document.getElementById('clear').onclick=()=>{strokes=[];ctx.clearRect(0,0,board
 function buildJSONStructured2D(strokes){
     if(strokes.length===0) return { colors:[[0,0,0]], stitches:[] };
     const result={ colors:[[0,0,0]], stitches:[] };
-    const scaleX = 4; const scaleY = 1;
+
+    const scaleX = 4;
+    const scaleY = 1;
+
     strokes.forEach(stroke=>stroke.forEach(pt=>{
         const x = Math.round(((pt.x - offsetX) / dw * imgWidth) * scaleX);
         const y = Math.round(((pt.y - offsetY) / dh * imgHeight) * scaleY);
@@ -356,6 +264,5 @@ document.getElementById('export').onclick=()=>{
     URL.revokeObjectURL(dstUrl);
 };
 </script>
-
 </body>
 </html>
