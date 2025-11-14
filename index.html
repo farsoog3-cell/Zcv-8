@@ -3,62 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>تسجيل الدخول + مخطط تطريز 2D</title>
+<title>مخطط تطريز - 2D منضبط ومحسن</title>
 <style>
-/* ======== إعدادات الجسم والصندوق ======== */
+/* ================== ستايل لوحة التطريز ================== */
 body, html {
   margin:0; padding:0; height:100%; width:100%;
   font-family:'Segoe UI',sans-serif;
-  background:#111;
-  color:white;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  display:flex; flex-direction:column;
+  background:#ffffff; /* أبيض */
 }
-.login-box {
-  background:#1f1f1f;
-  padding:30px;
-  border-radius:12px;
-  box-shadow:0 4px 20px rgba(0,0,0,0.7);
-  width:320px;
-  position: relative;
-}
-.login-box h2 { text-align:center; margin-bottom:10px; }
-.network-status { text-align:center; margin-bottom:15px; font-weight:bold; }
-.network-strong { color:#4caf50; }
-.network-weak { color:#ffc107; }
-.network-off { color:#ff4c4c; }
-.form-group { margin-bottom:15px; }
-label { display:block; margin-bottom:5px; }
-input { width:100%; padding:10px; border-radius:6px; border:none; background:#222; color:white; }
-button { width:100%; padding:12px; background:#2575fc; border:none; border-radius:8px; color:white; font-weight:bold; cursor:pointer; }
-button:hover { opacity:0.9; }
-button:disabled { opacity:0.6; cursor:not-allowed; }
-.error-msg { color:#ff4c4c; text-align:center; margin-top:10px; }
-.success-msg { color:#4caf50; text-align:center; margin-top:10px; }
-/* Spinner */
-#loading {
-  display:none;
-  position:absolute;
-  top:0; left:0; right:0; bottom:0;
-  background: rgba(0,0,0,0.7);
-  justify-content:center;
-  align-items:center;
-  border-radius:12px;
-  z-index:1000;
-}
-.spinner {
-  border:4px solid #f3f3f3;
-  border-top:4px solid #2575fc;
-  border-radius:50%;
-  width:40px;
-  height:40px;
-  animation:spin 1s linear infinite;
-}
-@keyframes spin { 0% { transform: rotate(0deg);} 100% { transform: rotate(360deg);} }
-
-/* ======== مخطط التطريز ======== */
-#embroideryApp { display:none; flex-direction:column; height:100vh; width:100vw; background:#ffffff; color:black; }
 header {
   background: linear-gradient(90deg,#000000,#333333);
   color:#ffffff; text-align:center;
@@ -81,113 +34,118 @@ canvas {
   border-top:2px solid #000000;
   flex-wrap:wrap;
 }
-button.control-btn {
+button {
   padding:8px 12px; margin:5px;
   border-radius:12px; border:none;
   cursor:pointer; transition:0.3s;
   background:#000000; color:#ffffff; font-weight:600;
   box-shadow:0 2px 4px rgba(0,0,0,0.3);
 }
-button.control-btn:hover { background:#333333; }
+button:hover { background:#333333; box-shadow:0 3px 6px rgba(0,0,0,0.4); }
 .upload-btn-wrapper { position: relative; overflow: hidden; display: inline-block; }
-.upload-btn {
-  background:#000000; color:white; font-weight:600;
-  padding:8px 20px; border-radius:12px; cursor:pointer;
-  box-shadow:0 2px 4px rgba(0,0,0,0.3);
-}
+.upload-btn { background:#000000; color:white; font-weight:600; padding:8px 20px; border-radius:12px; cursor:pointer; box-shadow:0 2px 4px rgba(0,0,0,0.3);}
 .upload-btn:hover { background:#333333; }
-.upload-btn-wrapper input[type=file] {
-  font-size:100px; position:absolute; left:0; top:0;
-  opacity:0; cursor:pointer;
+.upload-btn-wrapper input[type=file] { font-size:100px; position:absolute; left:0; top:0; opacity:0; cursor:pointer; }
+.warn { color:#000000; font-size:0.85em; margin-left:15px; background:#ffffff; padding:5px 10px; border-radius:10px; }
+
+/* ================== ستايل شاشة تسجيل الدخول ================== */
+#loginScreen {
+  position:fixed; top:0; left:0; width:100%; height:100%;
+  background:#111; display:flex; justify-content:center; align-items:center; flex-direction:column;
+  z-index:1000; color:white;
 }
-.warn { color:#000000; font-size:0.85em; margin-left:15px;
-  background:#ffffff; padding:5px 10px; border-radius:10px; }
+.login-box {
+  background:#1f1f1f; padding:30px; border-radius:12px; box-shadow:0 4px 20px rgba(0,0,0,0.7); width:320px; position: relative;
+}
+.login-box h2 { text-align:center; margin-bottom:10px; }
+.form-group { margin-bottom:15px; }
+label { display:block; margin-bottom:5px; }
+input { width:100%; padding:10px; border-radius:6px; border:none; background:#222; color:white; }
+button.login-btn { width:100%; padding:12px; background:#2575fc; border:none; border-radius:8px; color:white; font-weight:bold; cursor:pointer; }
+button.login-btn:hover { opacity:0.9; }
+button.login-btn:disabled { opacity:0.6; cursor:not-allowed; }
+.error-msg { color:#ff4c4c; text-align:center; margin-top:10px; }
+.success-msg { color:#4caf50; text-align:center; margin-top:10px; }
+/* Spinner */
+#loading { display:none; position:absolute; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.7); justify-content:center; align-items:center; border-radius:12px; z-index:1001; }
+.spinner { border:4px solid #f3f3f3; border-top:4px solid #2575fc; border-radius:50%; width:40px; height:40px; animation:spin 1s linear infinite; }
+@keyframes spin { 0% { transform: rotate(0deg);} 100% { transform: rotate(360deg);} }
 </style>
 </head>
 <body>
 
-<!-- ===== تسجيل الدخول ===== -->
-<div class="login-box" id="loginBox">
-<h2>تسجيل الدخول</h2>
-<div class="network-status" id="networkStatus">التحقق من الشبكة...</div>
-<div class="form-group">
-<label>اسم المستخدم:</label>
-<input type="text" id="username" placeholder="أدخل اسم المستخدم">
-</div>
-<div class="form-group">
-<label>مفتاح الدخول:</label>
-<input type="password" id="key" placeholder="أدخل مفتاح الاشتراك">
-</div>
-<button id="loginBtn">دخول</button>
-<p class="error-msg" id="errorMsg"></p>
-<p class="success-msg" id="successMsg"></p>
-<div id="loading"><div class="spinner"></div></div>
+<!-- ================== شاشة تسجيل الدخول ================== -->
+<div id="loginScreen">
+  <div class="login-box">
+    <h2>تسجيل الدخول</h2>
+    <div class="form-group">
+      <label>اسم المستخدم:</label>
+      <input type="text" id="usernameLogin" placeholder="أدخل اسم المستخدم">
+    </div>
+    <div class="form-group">
+      <label>مفتاح الدخول:</label>
+      <input type="text" id="keyLogin" placeholder="أدخل مفتاح الاشتراك">
+    </div>
+    <button class="login-btn" id="loginBtn">دخول</button>
+    <p class="error-msg" id="errorMsg"></p>
+    <p class="success-msg" id="successMsg"></p>
+    <div id="loading"><div class="spinner"></div></div>
+  </div>
 </div>
 
-<!-- ===== تطبيق التطريز ===== -->
-<div id="embroideryApp">
+<!-- ================== لوحة التطريز ================== -->
 <header>مخطط تطريز - 2D منضبط ومحسن</header>
 <div id="main"><canvas id="board"></canvas></div>
 <div class="controls">
-  <button class="control-btn" id="clear">مسح</button>
-  <button class="control-btn" id="export">تنزيل JSON وDST</button>
+  <button id="clear">مسح</button>
+  <button id="export">تنزيل JSON وDST</button>
   <div class="upload-btn-wrapper">
     <button class="upload-btn">📂 اختر صورة</button>
     <input type="file" id="upload" accept="image/*">
   </div>
   <div class="warn">كل الغرز باللون الأسود ودقة الحواف محفوظة.</div>
 </div>
-</div>
 
 <script type="module">
-/* ===== Firebase + تسجيل الدخول ===== */
+// ================== Firebase تسجيل الدخول ==================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
 import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAr_v3kF12qSNko0B6OTVCADZuzSOxn1lw",
-  authDomain: "fars000911111.firebaseapp.com",
-  databaseURL: "https://fars000911111-default-rtdb.firebaseio.com",
-  projectId: "fars000911111",
-  storageBucket: "fars000911111.appspot.com",
-  messagingSenderId: "74964466448",
-  appId: "1:74964466448:web:18d91ccf891edab4634395",
-  measurementId: "G-H2K9WGRR0X"
+apiKey: "AIzaSyAr_v3kF12qSNko0B6OTVCADZuzSOxn1lw",
+authDomain: "fars000911111.firebaseapp.com",
+databaseURL: "https://fars000911111-default-rtdb.firebaseio.com",
+projectId: "fars000911111",
+storageBucket: "fars000911111.appspot.com",
+messagingSenderId: "74964466448",
+appId: "1:74964466448:web:18d91ccf891edab4634395",
+measurementId: "G-H2K9WGRR0X"
 };
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-const networkStatusEl = document.getElementById('networkStatus');
+const networkStatusEl = document.createElement('div');
 function updateNetworkStatus() {
     if(!navigator.onLine){
         networkStatusEl.textContent="لا يوجد اتصال بالإنترنت";
-        networkStatusEl.className="network-status network-off";
-    } else if(navigator.connection){
-        const speed=navigator.connection.effectiveType;
-        networkStatusEl.textContent=(speed==="4g"||speed==="wifi")?"اتصال قوي":"اتصال ضعيف";
-        networkStatusEl.className="network-status "+((speed==="4g"||speed==="wifi")?"network-strong":"network-weak");
-    } else{
-        networkStatusEl.textContent="متصل بالإنترنت";
-        networkStatusEl.className="network-status network-strong";
-    }
+    } else { networkStatusEl.textContent="متصل بالإنترنت"; }
 }
 window.addEventListener('online', updateNetworkStatus);
 window.addEventListener('offline', updateNetworkStatus);
 updateNetworkStatus();
 
-document.getElementById('loginBtn').addEventListener('click', async ()=>{
-    const username=document.getElementById('username').value.trim();
-    const key=document.getElementById('key').value.trim();
+const loginBtn = document.getElementById('loginBtn');
+loginBtn.addEventListener('click', async ()=>{
+    const username=document.getElementById('usernameLogin').value.trim();
+    const key=document.getElementById('keyLogin').value.trim();
     const errorMsg=document.getElementById('errorMsg');
     const successMsg=document.getElementById('successMsg');
-    const loginBtn=document.getElementById('loginBtn');
     const loading=document.getElementById('loading');
-
     errorMsg.textContent=""; successMsg.textContent="";
     if(!username || !key){ errorMsg.textContent="الرجاء إدخال اسم المستخدم والمفتاح!"; return; }
     if(!navigator.onLine){ errorMsg.textContent="لا يوجد اتصال بالإنترنت!"; return; }
-
-    loading.style.display="flex"; loginBtn.disabled=true;
+    loading.style.display="flex";
+    loginBtn.disabled=true;
 
     try{
         const snapshot = await get(ref(db,'subscribers'));
@@ -204,25 +162,25 @@ document.getElementById('loginBtn').addEventListener('click', async ()=>{
                         errorMsg.textContent="انتهت مدة الاشتراك، يرجى تجديده";
                     } else {
                         successMsg.textContent="تم تسجيل الدخول بنجاح!";
-                        setTimeout(()=>{
-                            document.getElementById('loginBox').style.display='none';
-                            document.getElementById('embroideryApp').style.display='flex';
-                        },500);
+                        setTimeout(()=>document.getElementById('loginScreen').style.display='none',1000);
                     }
                     break;
                 }
             }
             if(!found) errorMsg.textContent="المفتاح غير صحيح أو تم حذفه!";
-        } else{ errorMsg.textContent="لا يوجد مشتركين في قاعدة البيانات!"; }
+        } else{
+            errorMsg.textContent="لا يوجد مشتركين في قاعدة البيانات!";
+        }
     } catch(err){
         console.error(err);
         errorMsg.textContent="حدث خطأ أثناء التحقق!";
     } finally{
-        loading.style.display="none"; loginBtn.disabled=false;
+        loading.style.display="none";
+        loginBtn.disabled=false;
     }
 });
 
-/* ===== مخطط التطريز 2D ===== */
+// ================== كود التطريز الأصلي ==================
 const board = document.getElementById('board');
 const ctx = board.getContext('2d');
 let strokes = [];
@@ -233,13 +191,12 @@ function resizeCanvas() { board.width = board.clientWidth; board.height = board.
 window.addEventListener('load', resizeCanvas);
 window.addEventListener('resize', resizeCanvas);
 
-function traceContours(imgData, width, height){
+function traceContours(imgData, width, height) {
     const data = imgData.data;
     const visited = Array(width*height).fill(false);
     const strokes = [];
     function getIndex(x,y){ return y*width+x; }
     function isBlack(x,y){ return data[4*getIndex(x,y)]<50; }
-
     function followContour(x0,y0){
         const contour=[];
         const stack=[[x0,y0]];
@@ -270,7 +227,6 @@ function traceContours(imgData, width, height){
         }
         return contour.length>4 ? simplify(contour,1) : null;
     }
-
     for(let y=0;y<height;y++){
         for(let x=0;x<width;x++){
             if(!visited[getIndex(x,y)] && isBlack(x,y)){
@@ -288,7 +244,7 @@ function smoothStroke(points){
     for(let i=1;i<points.length-2;i++){
         const p0=points[i-1],p1=points[i],p2=points[i+1],p3=points[i+2];
         for(let t=0;t<=1;t+=0.15){
-            const tt=t*t, ttt=tt*t;
+            const tt=t*t,ttt=tt*t;
             const x=0.5*((2*p1.x)+(-p0.x+p2.x)*t+(2*p0.x-5*p1.x+4*p2.x-p3.x)*tt+(-p0.x+3*p1.x-3*p2.x+p3.x)*ttt);
             const y=0.5*((2*p1.y)+(-p0.y+p2.y)*t+(2*p0.y-5*p1.y+4*p2.y-p3.y)*tt+(-p0.y+3*p1.y-3*p2.y+p3.y)*ttt);
             smoothed.push({x,y});
@@ -347,6 +303,58 @@ document.getElementById('upload').addEventListener('change',(e)=>{
 });
 
 document.getElementById('clear').onclick=()=>{strokes=[];ctx.clearRect(0,0,board.width,board.height);};
+
+function buildJSONStructured2D(strokes){
+    if(strokes.length===0) return { colors:[[0,0,0]], stitches:[] };
+    const result={ colors:[[0,0,0]], stitches:[] };
+    const scaleX = 4; const scaleY = 1;
+    strokes.forEach(stroke=>stroke.forEach(pt=>{
+        const x = Math.round(((pt.x - offsetX) / dw * imgWidth) * scaleX);
+        const y = Math.round(((pt.y - offsetY) / dh * imgHeight) * scaleY);
+        result.stitches.push({ color_idx:0, x, y });
+    }));
+    return result;
+}
+
+const MAX_STEP=1;
+function splitStep(dx,dy){ const steps=[]; let rx=dx,ry=dy; while(Math.abs(rx)>MAX_STEP||Math.abs(ry)>MAX_STEP){ const sx=Math.max(-MAX_STEP,Math.min(MAX_STEP,rx)); const sy=Math.max(-MAX_STEP,Math.min(MAX_STEP,ry)); steps.push([sx,sy]); rx-=sx; ry-=sy;} steps.push([rx,ry]); return steps;}
+function encodeStep(dx,dy,control){ let b0=0,b1=0,b2=0; function applyAxis(v,axis){ const sign=v<0?-1:1; let absv=Math.abs(v); const W=[81,27,9,3,1]; for(const w of W){ if(absv>=w){ if(axis==='x'){ if(w===1)b0|=(sign>0?0x01:0x02); else if(w===9)b0|=(sign>0?0x04:0x08); else if(w===3)b1|=(sign>0?0x01:0x02); else if(w===27)b1|=(sign>0?0x04:0x08); else if(w===81)b2|=(sign>0?0x20:0x40);} else{ if(w===1)b0|=(sign>0?0x10:0x20); else if(w===9)b0|=(sign>0?0x40:0x80); else if(w===3)b1|=(sign>0?0x10:0x20); else if(w===27)b1|=(sign>0?0x40:0x80); else if(w===81)b2|=(sign>0?0x04:0x08);} absv-=w;}}} applyAxis(dx,'x'); applyAxis(dy,'y'); if(control===0)b2|=0x03; else if(control===1)b2|=0x83; else if(control===2)b2|=0x23; return [b0&0xFF,b1&0xFF,b2&0xFF];}
+function buildDSTfromStructuredJSON(json){
+    if(!json.stitches || json.stitches.length===0) return null;
+    const allPoints=[...json.stitches.map(s=>({x:s.x,y:s.y})), null];
+    let prev=allPoints[0]||{x:0,y:0};
+    const bodyBytes=[];
+    let first=false;
+    for(const pt of allPoints){
+        if(pt===null){ bodyBytes.push(...encodeStep(0,0,2)); first=false; continue;}
+        const curr=pt;
+        if(!first){ const dx=curr.x-prev.x; const dy=curr.y-prev.y; for(const [sx,sy] of splitStep(dx,dy)) bodyBytes.push(...encodeStep(sx,sy,1)); prev=curr; first=true; continue;}
+        const dx=curr.x-prev.x; const dy=curr.y-prev.y; for(const [sx,sy] of splitStep(dx,dy)) bodyBytes.push(...encodeStep(sx,sy,0)); prev=curr;
+    }
+    bodyBytes.push(0x00,0x00,0xF3);
+    const header=new Uint8Array(512); header.fill(0x20);
+    let name=prompt('أدخل اسم التصميم (DST) بدون مسافات:','DESIGN1')||'DST_FINAL';
+    name=name.toUpperCase().substring(0,8);
+    for(let i=0;i<name.length;i++) header[i]=name.charCodeAt(i);
+    const buf=new Uint8Array(512+bodyBytes.length); buf.set(header,0); buf.set(new Uint8Array(bodyBytes),512);
+    return buf.buffer;
+}
+
+document.getElementById('export').onclick=()=>{
+    if(strokes.length===0){ alert('ارفع صورة أو ارسم شيئًا أولاً'); return; }
+    const jsonData=buildJSONStructured2D(strokes);
+    const jsonBlob=new Blob([JSON.stringify(jsonData,null,2)],{type:'application/json'});
+    const jsonUrl=URL.createObjectURL(jsonBlob);
+    const aJSON=document.createElement('a'); aJSON.href=jsonUrl; aJSON.download='stitches.json'; aJSON.click();
+    URL.revokeObjectURL(jsonUrl);
+
+    const dstBuffer=buildDSTfromStructuredJSON(jsonData);
+    if(!dstBuffer){ alert('خطأ في إنشاء ملف DST'); return; }
+    const dstBlob=new Blob([dstBuffer],{type:'application/octet-stream'});
+    const dstUrl=URL.createObjectURL(dstBlob);
+    const aDST=document.createElement('a'); aDST.href=dstUrl; aDST.download='design.dst'; aDST.click();
+    URL.revokeObjectURL(dstUrl);
+};
 </script>
 
 </body>
